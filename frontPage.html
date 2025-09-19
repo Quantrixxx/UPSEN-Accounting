@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fixierter Header</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="left-block">
+      <div class="logo">Contasimple</div>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="To find" aria-label="Search">
+        <span class="icon">🔍</span>
+      </div>
+    </div>
+
+    <div class="right-block">
+      <button class="range-btn">Show date range ▾</button>
+      <div class="user">
+        <div class="name">Andrés</div>
+        <div class="avatar">A</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dummy Content -->
+  <main class="content">
+    <div class="card">
+      <h2>Billing... Summary</h2>
+      <p>Scroll runter und du siehst, dass der Header immer fixiert oben bleibt.</p>
+    </div>
+    <div style="height:1200px"></div>
+  </main>
+
+  <script>
+    document.getElementById('searchInput').addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){
+        alert('Suche: ' + this.value);
+      }
+    });
+  </script>
+</body>
+</html>
