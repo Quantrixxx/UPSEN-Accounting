@@ -3,8 +3,58 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fixierter Header</title>
+  <title>Fixierter Header + Accordion Tabelle</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Accordion Style */
+    .accordion {
+      width: 80%;
+      margin: 20px auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .accordion-header {
+      background: #4e73df;
+      color: #fff;
+      cursor: pointer;
+      padding: 15px 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: #375abf;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: #f9f9f9;
+      padding: 0 20px;
+    }
+
+    .accordion-content ul {
+      margin: 15px 0;
+      padding: 0 15px;
+      list-style: square;
+    }
+
+    .accordion-content li {
+      padding: 5px 0;
+    }
+
+    .accordion-content.open {
+      padding: 15px 20px;
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -20,31 +70,87 @@
       </div>
     </div>
 
-    <div class="right-block">
-      <button class="range-btn">Show date range ▾</button>
-      <div class="user">
-        <div class="name">Andrés</div>
-        <div class="avatar">A</div>
-      </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button">
+       Dropdown button
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
     </div>
   </header>
 
-  <!-- Dummy Content -->
+  <!-- Content -->
   <main class="content">
     <div class="card">
-      <h2>Billing..jjSummary</h2>
-      <p>Scroll runter und du siehst, dass der Header immer fixiert oben bleibt, und programmiere 
-        weiterrr well 
-      </p>
+      <h2>Billing Summary</h2>
+      <p>Scroll runter und sieh dir die aufklappbare Tabelle unten an:</p>
     </div>
-    <div style="height:1200px"></div>
+
+    <!-- Accordion Tabelle -->
+    <div class="accordion">
+      <!-- Punkt 1 -->
+      <div class="accordion-item">
+        <div class="accordion-header">📊 Hauptpunkt 1</div>
+        <div class="accordion-content">
+          <ul>
+            <li>Unterpunkt 1.1</li>
+            <li>Unterpunkt 1.2</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Punkt 2 -->
+      <div class="accordion-item">
+        <div class="accordion-header">📁 Hauptpunkt 2</div>
+        <div class="accordion-content">
+          <ul>
+            <li>Unterpunkt 2.1</li>
+            <li>Unterpunkt 2.2</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Punkt 3 -->
+      <div class="accordion-item">
+        <div class="accordion-header">⚙️ Hauptpunkt 3</div>
+        <div class="accordion-content">
+          <ul>
+            <li>Unterpunkt 3.1</li>
+            <li>Unterpunkt 3.2</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </main>
 
+  <!-- JS -->
   <script>
     document.getElementById('searchInput').addEventListener('keydown', function(e){
       if(e.key === 'Enter'){
         alert('Suche: ' + this.value);
       }
+    });
+
+    // Accordion Funktion
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+          content.classList.remove("open");
+        } else {
+          document.querySelectorAll('.accordion-content').forEach(c => {
+            c.style.maxHeight = null;
+            c.classList.remove("open");
+          });
+          content.style.maxHeight = content.scrollHeight + "px";
+          content.classList.add("open");
+        }
+      });
     });
   </script>
 </body>
