@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Information</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+<div class="container my-5">
+  <h1 class="text-center mb-4">Budget Information</h1>
+  <form id="budgetForm" class="card p-4 shadow-sm">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label for="number" class="form-label">Number</label>
+        <input type="text" id="number" name="number" class="form-control" readonly>
+      </div>
+      <div class="col-md-3">
+        <label for="series" class="form-label">Series</label>
+        <select id="series" name="series" class="form-select">
+          <option>Budgets</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" id="date" name="date" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label for="validity" class="form-label">Validity Date</label>
+        <input type="date" id="validity" name="validity" class="form-control">
+      </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+      <div class="col-md-4">
+        <label for="customer" class="form-label">Customer</label>
+        <input type="text" id="customer" name="customer" class="form-control" placeholder="Customer name">
+      </div>
+      <div class="col-md-4">
+        <label for="notes" class="form-label">Private Notes</label>
+        <textarea id="notes" name="notes" rows="3" class="form-control"></textarea>
+      </div>
+      <div class="col-md-4">
+        <label for="retention" class="form-label">Retention</label>
+        <select id="retention" name="retention" class="form-select">
+          <option>No Retention</option>
+          <option>10%</option>
+          <option>15%</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+      <div class="col-md-4">
+        <label for="tags" class="form-label">Tags</label>
+        <input type="text" id="tags" name="tags" class="form-control">
+      </div>
+      <div class="col-md-4">
+        <label for="language" class="form-label">Language</label>
+        <select id="language" name="language" class="form-select">
+          <option>Default client language</option>
+          <option>English</option>
+          <option>Spanish</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="numeric" class="form-label">Numeric Format</label>
+        <select id="numeric" name="numeric" class="form-select">
+          <option>Default client format</option>
+        </select>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Items</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered" id="itemsTable">
+        <thead class="table-light">
+          <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Cost (€)</th>
+            <th>Total (€)</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="form-control desc"></td>
+            <td><input type="number" class="form-control qty" value="1" min="1"></td>
+            <td><input type="number" class="form-control unit" value="0" step="0.01"></td>
+            <td class="line-total">0.00</td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-btn">X</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="btn btn-primary" id="addItem">+ Add Item</button>
+    <div class="text-end fw-bold mt-3">
+      Grand Total: €<span id="grandTotal">0.00</span>
+    </div>
+  </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
