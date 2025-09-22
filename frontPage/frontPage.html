@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fixierter Header + Sidebar Accordion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">📂 Menü</div>
+    <div class="accordion">
+      <!-- Punkt 1 -->
+      <div class="accordion-item">
+        <div class="accordion-header">Accounting</div>
+        <div class="accordion-content">
+          <ul>
+            <li>Summary</li>
+            <li>Invoices issued</li>
+            <li>Invoices received</li>
+            <li>Expenses</li>
+            <li>Delivery notes</li>
+            <li>Budgets</li>
+            <li>Investment goods</li>
+            <li>OCR</li>
+            <li>Export</li>
+            <li>Import</li>
+            <li>Import invoices</li>
+            <li>Closing of quarters</li>
+          </ul>
+        </div>
+      </div>   
+    </div>
+    
+    <!-- Werbung Bereich -->
+    <div class="ad-container">
+      <img src="https://via.placeholder.com/200x200/2a4d9c/ffffff?text=WERBUNG" 
+           alt="Werbung" class="ad-image">
+    </div>
+  </aside>
+
+  <!-- Content rechts -->
+  <main class="content">
+    <h1>Willkommen</h1>
+    <p>Das ist dein Content-Bereich rechts neben der Sidebar.</p>
+    <p>Die Sidebar ist fix, Accordion klappt auf, Unterpunkte haben begrenzte Höhe und bekommen Scroll, wenn es zu viele werden.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
