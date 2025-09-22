@@ -14,7 +14,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 250px;
+      width: 300px; /* breiter gemacht */
       background: #2c3e50;
       color: white;
       display: flex;
@@ -57,17 +57,14 @@
     }
 
     .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
+      display: none; /* Standard: unsichtbar */
       background: #34495e;
       padding: 0 20px;
     }
 
     /* NUR offen */
     .accordion-content.open {
-      max-height: 200px;
-      overflow-y: auto;
+      display: block; /* einfach anzeigen statt Höhe begrenzen */
       padding: 10px 20px;
     }
 
@@ -83,7 +80,7 @@
     }
 
     .content {
-      margin-left: 250px;
+      margin-left: 300px; /* angepasst an Sidebar-Breite */
       padding: 20px;
       flex-grow: 1;
       background: #ecf0f1;
@@ -105,7 +102,6 @@
             <li>Expenses</li>
             <li>Delivery notes</li>
             <li>Budgets</li>
-            <li>Investment goods</li>
             <li>OCR</li>
             <li>Export</li>
             <li>Import</li>
