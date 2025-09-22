@@ -4,14 +4,94 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fixierter Header + Sidebar Accordion</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 300px; /* breiter gemacht */
+      background: #2c3e50;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      font-size: 1.4em;
+      font-weight: bold;
+      background: #1a252f;
+      text-align: center;
+    }
+
+    .accordion {
+      flex-grow: 1;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid #34495e;
+    }
+
+    .accordion-header {
+      background: #2c3e50;
+      color: #ecf0f1;
+      cursor: pointer;
+      padding: 15px 20px;
+      font-size: 1.1em;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: #1abc9c;
+    }
+
+    .accordion-content {
+      display: none; /* Standard: unsichtbar */
+      background: #34495e;
+      padding: 0 20px;
+    }
+
+    /* NUR offen */
+    .accordion-content.open {
+      display: block; /* einfach anzeigen statt Höhe begrenzen */
+      padding: 10px 20px;
+    }
+
+    .accordion-content ul {
+      margin: 10px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .accordion-content li {
+      padding: 8px 0;
+      font-size: 0.95em;
+    }
+
+    .content {
+      margin-left: 300px; /* angepasst an Sidebar-Breite */
+      padding: 20px;
+      flex-grow: 1;
+      background: #ecf0f1;
+    }
+  </style>
 </head>
 <body>
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">📂 Menü</div>
     <div class="accordion">
-      <!-- Punkt 1 -->
       <div class="accordion-item">
         <div class="accordion-header">Accounting</div>
         <div class="accordion-content">
@@ -22,7 +102,6 @@
             <li>Expenses</li>
             <li>Delivery notes</li>
             <li>Budgets</li>
-            <li>Investment goods</li>
             <li>OCR</li>
             <li>Export</li>
             <li>Import</li>
@@ -30,23 +109,23 @@
             <li>Closing of quarters</li>
           </ul>
         </div>
-      </div>   
-    </div>
-    
-    <!-- Werbung Bereich -->
-    <div class="ad-container">
-      <img src="https://via.placeholder.com/200x200/2a4d9c/ffffff?text=WERBUNG" 
-           alt="Werbung" class="ad-image">
+      </div>
     </div>
   </aside>
 
-  <!-- Content rechts -->
+  <!-- Content -->
   <main class="content">
     <h1>Willkommen</h1>
     <p>Das ist dein Content-Bereich rechts neben der Sidebar.</p>
-    <p>Die Sidebar ist fix, Accordion klappt auf, Unterpunkte haben begrenzte Höhe und bekommen Scroll, wenn es zu viele werden.</p>
   </main>
 
-  <script src="script.js"></script>
+  <script>
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        content.classList.toggle("open");
+      });
+    });
+  </script>
 </body>
 </html>
