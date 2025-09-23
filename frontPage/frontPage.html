@@ -3,26 +3,175 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fixierter Header + Sidebar Accordion</title>
+  <title>Contasimple - Accounting Dashboard</title>
   <style>
-    body {
+    /* Basis-Styles */
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #eef1f7;
+      color: #333;
       height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Login Screen */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #3a6cd6 0%, #1e3a8a 100%);
+    }
+    
+    .login-form {
+      background: white;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 420px;
+    }
+    
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2a4d9c;
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #2a4d9c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    
+    .login-btn:hover {
+      background-color: #1e3a8a;
+    }
+
+    /* App Layout */
+    .app-container {
+      display: none;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      background-color: #2a4d9c;
+      padding: 0 25px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .nav-items {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: white;
+      color: #2a4d9c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 55px;
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      width: 170px;
+      display: none;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 14px 16px;
+      cursor: pointer;
+      color: #333;
+      font-size: 15px;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f0f4ff;
+      color: #2a4d9c;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
     }
 
     /* Sidebar */
     .sidebar {
-      width: 300px; /* breiter gemacht */
+      width: 250px;
       background: #2c3e50;
       color: white;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
       overflow-y: auto;
     }
 
@@ -32,10 +181,11 @@
       font-weight: bold;
       background: #1a252f;
       text-align: center;
+      letter-spacing: 1px;
     }
 
     .accordion {
-      flex-grow: 1;
+      padding: 10px 0;
     }
 
     .accordion-item {
@@ -47,8 +197,8 @@
       color: #ecf0f1;
       cursor: pointer;
       padding: 15px 20px;
-      font-size: 1.1em;
-      font-weight: bold;
+      font-size: 1.05em;
+      font-weight: 600;
       transition: background 0.3s;
     }
 
@@ -57,74 +207,395 @@
     }
 
     .accordion-content {
-      display: none; /* Standard: unsichtbar */
+      display: none;
       background: #34495e;
-      padding: 0 20px;
     }
 
-    /* NUR offen */
     .accordion-content.open {
-      display: block; /* einfach anzeigen statt Höhe begrenzen */
-      padding: 10px 20px;
+      display: block;
     }
 
     .accordion-content ul {
-      margin: 10px 0;
-      padding: 0;
+      margin: 0;
+      padding: 10px 0;
       list-style: none;
     }
 
     .accordion-content li {
-      padding: 8px 0;
+      padding: 10px 20px 10px 40px;
       font-size: 0.95em;
+      cursor: pointer;
     }
 
+    .accordion-content li:hover {
+      background: #2c3e50;
+      color: #1abc9c;
+    }
+
+    /* Content Area */
     .content {
-      margin-left: 300px; /* angepasst an Sidebar-Breite */
-      padding: 20px;
-      flex-grow: 1;
-      background: #ecf0f1;
+      flex: 1;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background-color: #2a4d9c;
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: #e9ecef;
+      color: #495057;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card-header {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .plan-card {
+      background: linear-gradient(135deg, #2a4d9c 0%, #3a6cd6 100%);
+      color: white;
+    }
+
+    .plan-card .card-header {
+      color: white;
+    }
+
+    .plan-info {
+      margin-bottom: 15px;
+    }
+
+    .billing-card {
+      border-left: 5px solid #e74c3c;
+    }
+
+    .billing-warning {
+      color: #e74c3c;
+      font-weight: 500;
+      margin: 10px 0;
+    }
+
+    .chart-card {
+      grid-column: span 2;
+    }
+
+    .chart-placeholder {
+      height: 200px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6c757d;
+      margin-top: 15px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .comments-section {
+      margin-top: 30px;
+    }
+
+    .comments-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #2a4d9c;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .forecast-card {
+      margin-top: 30px;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .chart-card {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        left: -250px;
+        height: 100%;
+        z-index: 100;
+        transition: left 0.3s;
+      }
+      
+      .sidebar.open {
+        left: 0;
+      }
+      
+      .nav-items {
+        display: none;
+      }
     }
   </style>
+  <!-- Bootstrap CSS -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet">
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">📂 Menü</div>
-    <div class="accordion">
-      <div class="accordion-item">
-        <div class="accordion-header">Accounting</div>
-        <div class="accordion-content">
-          <ul>
-            <li>Summary</li>
-            <li>Invoices issued</li>
-            <li>Invoices received</li>
-            <li>Expenses</li>
-            <li>Delivery notes</li>
-            <li>Budgets</li>
-            <li>OCR</li>
-            <li>Export</li>
-            <li>Import</li>
-            <li>Import invoices</li>
-            <li>Closing of quarters</li>
-          </ul>
+  <!-- Login Screen -->
+  <div class="login-container" id="loginScreen">
+    <div class="login-form">
+      <h2>Anmelden bei Contasimple</h2>
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" placeholder="Ihre E-Mail-Adresse">
+      </div>
+      <div class="form-group">
+        <label for="password">Passwort</label>
+        <input type="password" id="password" placeholder="Ihr Passwort">
+      </div>
+      <button class="login-btn" id="loginBtn">Anmelden</button>
+    </div>
+  </div>
+
+  <!-- App Container -->
+  <div class="app-container" id="appContainer">
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <div class="logo">Contasimple</div>
+      <div class="nav-items">
+        <div class="user-profile">
+          <div class="avatar" id="userMenuBtn">JS</div>
+          <span>John Smith</span>
+          <div class="dropdown-menu" id="userDropdown">
+            <div class="dropdown-item">Profil</div>
+            <div class="dropdown-item">Einstellungen</div>
+            <div class="dropdown-item" id="logoutBtn">Abmelden</div>
+          </div>
         </div>
       </div>
-    </div>
-  </aside>
+    </nav>
 
-  <!-- Content -->
-  <main class="content">
-    <h1>Willkommen</h1>
-    <p>Das ist dein Content-Bereich rechts neben der Sidebar.</p>
-  </main>
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">Menü</div>
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header">Accounting</div>
+            <div class="accordion-content">
+              <ul>
+                <li>Summary</li>
+                <li>Invoices issued</li>
+                <li>Invoices received</li>
+                <li>Expenses</li>
+                <li>Delivery notes</li>
+                <li>Budgets</li>
+                <li>Investment goods</li>
+                <li>OCR</li>
+                <li>Export</li>
+                <li>Import</li>
+                <li>Import invoices</li>
+                <li>Closing of quarters</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content">
+        <div class="dashboard-header">
+          <h1 class="page-title">Dashboard</h1>
+          <div class="action-buttons">
+            <button class="btn btn-primary">
+              <span>+</span> Neues Dokument
+            </button>
+            <button class="btn btn-secondary">
+              <span>↻</span> Aktualisieren
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card plan-card">
+            <h2 class="card-header">Plan aktualisieren</h2>
+            <div class="plan-info">
+              <p>Sie nutzen derzeit den kostenlosen Basis-Plan.</p>
+            </div>
+            <button class="btn" style="background: white; color: #2a4d9c;">
+              Plan upgraden oder Produkte hinzufügen
+            </button>
+          </div>
+
+          <div class="card billing-card">
+            <h2 class="card-header">Abrechnungsübersicht</h2>
+            <p>Sie haben die maximale Anzahl von Dokumenten erreicht, die Ihr Plan für 2025 zulässt.</p>
+            <p class="billing-warning">Um die Limits zu erhöhen, mieten Sie einen höheren Plan an.</p>
+          </div>
+
+          <div class="card chart-card">
+            <h2 class="card-header">Einnahmen- und Ausgabendiagramm</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Kumulierter Gewinn</th>
+                  <th>Einnahmen</th>
+                  <th>Ausgaben</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>€0.00</td>
+                  <td>€0.00</td>
+                  <td>€0.00</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="chart-placeholder">
+              Diagrammvisualisierung würde hier erscheinen
+            </div>
+          </div>
+        </div>
+
+        <div class="comments-section">
+          <div class="comments-toggle">
+            <span>+</span>
+            <span>Kommentare anzeigen</span>
+          </div>
+        </div>
+
+        <div class="card forecast-card">
+          <h2 class="card-header">Zahlungsprognose</h2>
+          <div class="chart-placeholder">
+            Prognosediagramm würde hier erscheinen
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
 
   <script>
+    // Login functionality
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      if (email && password) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+      } else {
+        alert('Bitte geben Sie E-Mail und Passwort ein');
+      }
+    });
+    
+    // User menu functionality
+    document.getElementById('userMenuBtn').addEventListener('click', function() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    });
+    
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      document.getElementById('appContainer').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('userDropdown').classList.remove('show');
+    });
+    
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(e) {
+      if (!e.target.matches('#userMenuBtn')) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    });
+    
+    // Accordion functionality
     document.querySelectorAll('.accordion-header').forEach(header => {
       header.addEventListener('click', () => {
         const content = header.nextElementSibling;
         content.classList.toggle("open");
       });
+    });
+
+    // Comments toggle
+    document.querySelector('.comments-toggle').addEventListener('click', function() {
+      alert('Kommentarbereich würde sich hier erweitern');
     });
   </script>
 </body>
