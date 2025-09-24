@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UPSEN Accounting System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>UPSEN Accounting</h1>
+            <nav>
+                <a href="#/frontPage">Startseite</a>
+                <a href="#/invoice-issued">Ausgangsrechnungen</a>
+                <a href="#/invoice-received">Eingangsrechnungen</a>
+                <a href="#/budget">Budget</a>
+                <a href="#/ocr">OCR</a>
+            </nav>
+        </header>
+        
+        <main id="content">
+            <!-- Hier laden die einzelnen Seiten -->
+            <div id="page-content"></div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="./js/firebase-config.js"></script>
+    <!-- Router für das Team -->
+    <script type="module" src="./js/router.js"></script>
+</body>
+</html>
