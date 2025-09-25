@@ -1,7 +1,5 @@
 {
   "firestore": {
-    "database": "(default)",
-    "location": "europe-southwest1",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
@@ -17,10 +15,9 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
-  },
-  "storage": {
-    "rules": "storage.rules"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
   },
   "emulators": {
     "auth": {
@@ -28,9 +25,6 @@
     },
     "firestore": {
       "port": 8080
-    },
-    "storage": {
-      "port": 9199
     },
     "ui": {
       "enabled": true,
