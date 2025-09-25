@@ -1,1 +1,42 @@
-<div><h1>OCR Scanner</h1><p>Person 4 arbeitet hier</p></div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UPSEN Accounting</title>
+    <base href="/UPSEN-ACCOUNTing/">
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        nav { background: #f0f0f0; padding: 15px; margin-bottom: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>UPSEN Accounting System</h1>
+    
+    <nav>
+        <a href="#frontPage">Startseite</a>
+        <a href="#invoice-issued">Ausgangsrechnungen</a>
+        <a href="#invoice-received">Eingangsrechnungen</a>
+        <a href="#budget">Budget</a>
+        <a href="#ocr">OCR</a>
+    </nav>
+    
+    <div id="content">
+        <h2>Willkommen beim Accounting System</h2>
+        <p>✅ GitHub Pages funktioniert!</p>
+    </div>
+
+    <script>
+        // Einfacher Router
+        function loadPage() {
+            const hash = window.location.hash.replace('#', '') || 'frontPage';
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `<h2>${hash} Seite</h2><p>In Entwicklung</p>`;
+        }
+        
+        window.addEventListener('hashchange', loadPage);
+        window.addEventListener('load', loadPage);
+    </script>
+</body>
+</html>
