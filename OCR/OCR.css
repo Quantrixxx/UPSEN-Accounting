@@ -2,16 +2,14 @@ body {
   background-color: #f8f9fa;
 }
 
-.progress-circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: conic-gradient(#28a745 0deg, #28a745 0deg, #e0e0e0 0deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: #28a745;
-  position: relative;
+.card {
+  margin-top: 20px;
 }
 
+table {
+  margin-top: 10px;
+}
+
+.alert-info {
+  font-size: 0.9rem;
+}
