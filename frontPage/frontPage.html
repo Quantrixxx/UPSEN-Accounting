@@ -381,6 +381,30 @@
       font-weight: 600;
     }
 
+    /* Link Styles */
+    .sidebar-link {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      padding: 10px 20px 10px 40px;
+    }
+
+    .sidebar-link:hover {
+      background: #2c3e50;
+      color: #1abc9c;
+    }
+
+    /* Status Message */
+    .status-message {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      color: #856404;
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .dashboard-grid {
@@ -409,10 +433,6 @@
       }
     }
   </style>
-  <!-- Bootstrap CSS -->
-  <link 
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet">
 </head>
 <body>
   <!-- Login Screen -->
@@ -421,11 +441,11 @@
       <h2>Anmelden bei Contasimple</h2>
       <div class="form-group">
         <label for="email">E-Mail</label>
-        <input type="email" id="email" placeholder="Ihre E-Mail-Adresse">
+        <input type="email" id="email" placeholder="Ihre E-Mail-Adresse" value="test@example.com">
       </div>
       <div class="form-group">
         <label for="password">Passwort</label>
-        <input type="password" id="password" placeholder="Ihr Passwort">
+        <input type="password" id="password" placeholder="Ihr Passwort" value="123456">
       </div>
       <button class="login-btn" id="loginBtn">Anmelden</button>
     </div>
@@ -459,18 +479,13 @@
             <div class="accordion-header">Accounting</div>
             <div class="accordion-content">
               <ul>
-                <li><a href="https://quantrixxx.github.io/UPSEN-Accounting/" style="color: inherit; text-decoration: none;">Dashboard</a></li>
-                <li><a href="https://quantrixxx.github.io/UPSEN-Accounting/Invoice-issued/invoice-issued.html" style="color: inherit; text-decoration: none;">Invoices issued</a></li>
-                <li><a href="https://quantrixxx.github.io/UPSEN-Accounting/Invoice_received/Invoice_received.html" style="color: inherit; text-decoration: none;">Invoices received</a></li>
-                <li><a href="https://quantrixxx.github.io/UPSEN-Accounting/expense/expense.html" style="color: inherit; text-decoration: none;">Expenses</a></li>
-                <li>Delivery notes</li>
-                <li><a href="https://quantrixxx.github.io/UPSEN-Accounting/budgetPage/budget.html" style="color: inherit; text-decoration: none;">Budgets</a></li>
-                <li>Investment goods</li>
-                <li><a href="https://quantrixxx.github.io/UPSEN-Accounting/OCR/OCR.html" style="color: inherit; text-decoration: none;">OCR</a></li>
-                <li>Export</li>
-                <li>Import</li>
-                <li>Import invoices</li>
-                <li>Closing of quarters</li>
+                <li><a href="#dashboard" class="sidebar-link" data-page="dashboard">Dashboard</a></li>
+                <li><a href="expense/expense.html" class="sidebar-link">Expenses</a></li>
+                <li><a href="OCR/OCR.html" class="sidebar-link">OCR</a></li>
+                <li><a href="Invoice-issued/invoice-issued.html" class="sidebar-link">Invoice Issued</a></li>
+                <li><a href="Invoice_received/Invoice_received.html" class="sidebar-link">Invoice Received</a></li>
+                <li><a href="budgetPage/budget.html" class="sidebar-link">Budgets</a></li>
+                <li><a href="#help" class="sidebar-link">Hilfe</a></li>
               </ul>
             </div>
           </div>
@@ -485,10 +500,16 @@
             <button class="btn btn-primary" id="newDocumentBtn">
               <span>+</span> Neues Dokument
             </button>
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary" id="refreshBtn">
               <span>↻</span> Aktualisieren
             </button>
           </div>
+        </div>
+
+        <!-- Status Message für Links -->
+        <div class="status-message" id="linkStatus">
+          <strong>Hinweis:</strong> Klicken Sie auf die Links in der Sidebar, um zu den entsprechenden Seiten zu navigieren.
+          Die Seiten öffnen sich in neuen Tabs.
         </div>
 
         <div class="dashboard-grid">
@@ -533,7 +554,7 @@
         </div>
 
         <div class="comments-section">
-          <div class="comments-toggle">
+          <div class="comments-toggle" id="toggleComments">
             <span>+</span>
             <span>Kommentare anzeigen</span>
           </div>
@@ -594,70 +615,59 @@
     });
 
     // Comments toggle
-    document.querySelector('.comments-toggle').addEventListener('click', function() {
+    document.getElementById('toggleComments').addEventListener('click', function() {
       alert('Kommentarbereich würde sich hier erweitern');
     });
 
-    // New Document Button - zeigt Optionen für verschiedene Dokumenttypen
-    document.getElementById('newDocumentBtn').addEventListener('click', function() {
-      const documentTypes = [
-        {name: "Rechnung erstellen", url: "https://quantrixxx.github.io/UPSEN-Accounting/Invoice-issued/invoice-issued.html"},
-        {name: "Ausgabe erfassen", url: "https://quantrixxx.github.io/UPSEN-Accounting/expense/expense.html"},
-        {name: "OCR-Verarbeitung", url: "https://quantrixxx.github.io/UPSEN-Accounting/OCR/OCR.html"},
-        {name: "Budget erstellen", url: "https://quantrixxx.github.io/UPSEN-Accounting/budgetPage/budget.html"}
-      ];
-      
-      let optionsHtml = documentTypes.map(type => 
-        `<div style="padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;" 
-              onclick="window.open('${type.url}', '_self')">${type.name}</div>`
-      ).join('');
-      
-      const modal = document.createElement('div');
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100%';
-      modal.style.height = '100%';
-      modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-      modal.style.display = 'flex';
-      modal.style.justifyContent = 'center';
-      modal.style.alignItems = 'center';
-      modal.style.zIndex = '2000';
-      
-      const modalContent = document.createElement('div');
-      modalContent.style.backgroundColor = 'white';
-      modalContent.style.padding = '20px';
-      modalContent.style.borderRadius = '8px';
-      modalContent.style.width = '300px';
-      modalContent.innerHTML = `
-        <h3>Dokumenttyp auswählen</h3>
-        ${optionsHtml}
-        <div style="text-align: center; margin-top: 15px;">
-          <button onclick="this.closest('div').style.display='none'" 
-                  style="padding: 5px 15px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">
-            Abbrechen
-          </button>
-        </div>
-      `;
-      
-      modal.appendChild(modalContent);
-      modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-          document.body.removeChild(modal);
-        }
-      });
-      
-      document.body.appendChild(modal);
+    // Refresh button
+    document.getElementById('refreshBtn').addEventListener('click', function() {
+      location.reload();
     });
 
-    // Verbesserte Sidebar-Links: Hover-Effekte
-    document.querySelectorAll('.accordion-content a').forEach(link => {
-      link.addEventListener('mouseenter', function() {
-        this.style.color = '#1abc9c';
+    // Sidebar link handling with error checking
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        
+        // Skip internal links (starting with #)
+        if (href.startsWith('#')) {
+          return;
+        }
+        
+        e.preventDefault();
+        
+        // Test if the page exists
+        fetch(href, { method: 'HEAD' })
+          .then(response => {
+            if (response.ok) {
+              // Page exists, open in new tab
+              window.open(href, '_blank');
+              document.getElementById('linkStatus').innerHTML = 
+                '<strong>Erfolg:</strong> Seite wird geöffnet: ' + href;
+              document.getElementById('linkStatus').style.background = '#d4edda';
+              document.getElementById('linkStatus').style.color = '#155724';
+              document.getElementById('linkStatus').style.borderColor = '#c3e6cb';
+            } else {
+              throw new Error('Page not found');
+            }
+          })
+          .catch(error => {
+            // Page doesn't exist, show error
+            document.getElementById('linkStatus').innerHTML = 
+              '<strong>Fehler:</strong> Seite nicht gefunden: ' + href + 
+              '<br>Bitte stellen Sie sicher, dass die Seite auf GitHub existiert.';
+            document.getElementById('linkStatus').style.background = '#f8d7da';
+            document.getElementById('linkStatus').style.color = '#721c24';
+            document.getElementById('linkStatus').style.borderColor = '#f5c6cb';
+          });
       });
-      link.addEventListener('mouseleave', function() {
-        this.style.color = 'inherit';
-      });
+    });
+
+    // Auto-login for testing (remove in production)
+    window.addEventListener('load', function() {
+      // Auto-fill for easier testing
+      document.getElementById('email').value = 'test@example.com';
+      document.getElementById('password').value = '123456';
     });
   </script>
 </body>
