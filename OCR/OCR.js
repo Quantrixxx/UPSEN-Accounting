@@ -1,34 +1,64 @@
-const ocrTableBody = document.getElementById('ocrTableBody');
-const usagePercent = document.getElementById('usagePercent');
-const newReadingBtn = document.getElementById('newReadingBtn');
-const newReadingModal = new bootstrap.Modal(document.getElementById('newReadingModal'));
+document.getElementById('enviarBtn').addEventListener('click', () => {
+  const form = document.getElementById('newReadingForm');
+  const formData = new FormData(form);
 
-newReadingBtn.addEventListener('click', () => {
-  newReadingModal.show();
+  let dataObj = {};
+  formData.forEach((value, key) => {
+    if (key === 'ficheros') {
+      dataObj[key] = [];
+      for (let file of form.elements['ficheros'].files) {
+        dataObj[key].push(file.name);
+      }
+    } else {
+      dataObj[key] = value;
+    }
+  });
+
+  // Store reading in localStorage (append)
+  let readings = JSON.parse(localStorage.getItem('ocrReadings') || '[]');
+  readings.push({
+    id: readings.length + 1,
+    state: 'Pending',
+    date: new Date().toLocaleDateString(),
+    info: dataObj
+  });
+  localStorage.setItem('ocrReadings', JSON.stringify(readings));
+
+  // Update table immediately
+  updateTable();
+
+  // Close modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById('newReadingModal'));
+  modal.hide();
+
+  // Reset form
+  form.reset();
 });
 
+function updateTable() {
+  let tbody = document.querySelector('#ocrTable tbody');
+  tbody.innerHTML = '';
 
-function addReading() {
-  // Replace empty state with a real row
-  ocrTableBody.innerHTML = `
-    <tr>
-      <td>#1</td>
-      <td><span class="badge bg-warning text-dark">Processing</span></td>
-      <td>${new Date().toLocaleDateString()}</td>
-      <td>Invoice_123.pdf</td>
-      <td>Extracting data...</td>
-    </tr>
-  `; 
-  const percent = 50; // Example
-document.querySelector('.progress-circle').style.background = 
-  `conic-gradient(#28a745 0deg, #28a745 ${percent * 3.6}deg, #e0e0e0 ${percent * 3.6}deg 360deg)`;
+  let readings = JSON.parse(localStorage.getItem('ocrReadings') || '[]');
 
-document.getElementById('usagePercent').textContent = percent + '%';
+  if (readings.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">
+      You haven't submitted any OCR readings yet.</td></tr>`;
+    return;
+  }
 
-  // Update usage
-  usagePercent.textContent = '20%';
+  readings.forEach(r => {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.id}</td>
+      <td>${r.state}</td>
+      <td>${r.date}</td>
+      <td>${r.info.tipo_gasto} <br> ${r.info.comentarios}</td>
+      <td>${(r.info.ficheros || []).join(', ')}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
-
-document.getElementById('newReadingBtn').addEventListener('click', addReading);
-document.getElementById('newReadingBtn2').addEventListener('click', addReading);
+// Load table on page load
+document.addEventListener('DOMContentLoaded', updateTable);
