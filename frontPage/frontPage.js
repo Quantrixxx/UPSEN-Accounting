@@ -20,35 +20,11 @@ document.querySelectorAll('.accordion-header').forEach(header => {
 document.querySelectorAll('.sidebar-link').forEach(link => {
   link.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
-
     // Interne Links (Anker) ignorieren
     if (href.startsWith('#')) return;
-
     e.preventDefault();
-
-    // Prüfen, ob die Seite existiert
-    fetch(href, { method: 'HEAD' })
-      .then(response => {
-        if (response.ok) {
-          // Seite existiert, öffne im gleichen Tab
-          window.location.href = href;
-          document.getElementById('linkStatus').innerHTML = 
-            '<strong>Erfolg:</strong> Seite wird geöffnet: ' + href;
-          document.getElementById('linkStatus').style.background = '#d4edda';
-          document.getElementById('linkStatus').style.color = '#155724';
-          document.getElementById('linkStatus').style.borderColor = '#c3e6cb';
-        } else {
-          throw new Error('Seite nicht gefunden');
-        }
-      })
-      .catch(error => {
-        document.getElementById('linkStatus').innerHTML = 
-          '<strong>Fehler:</strong> Seite nicht gefunden: ' + href +
-          '<br>Bitte stellen Sie sicher, dass die Seite auf GitHub existiert.';
-        document.getElementById('linkStatus').style.background = '#f8d7da';
-        document.getElementById('linkStatus').style.color = '#721c24';
-        document.getElementById('linkStatus').style.borderColor = '#f5c6cb';
-      });
+    // Ohne Fetch: Seite einfach direkt im gleichen Tab öffnen
+    window.location.href = href;
   });
 });
 
@@ -61,7 +37,6 @@ document.getElementById('toggleComments')?.addEventListener('click', function() 
 document.getElementById('loginBtn')?.addEventListener('click', function() {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-
   if (email && password) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appContainer').style.display = 'flex';
