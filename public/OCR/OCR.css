@@ -1,0 +1,15 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.card {
+  margin-top: 20px;
+}
+
+table {
+  margin-top: 10px;
+}
+
+.alert-info {
+  font-size: 0.9rem;
+}

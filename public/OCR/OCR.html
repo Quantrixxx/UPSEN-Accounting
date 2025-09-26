@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCR Readings</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="ocr.css">
+</head>
+<body>
+
+<div class="container mt-4">
+  <h3>OCR - Optical Recognition of Tickets and Invoices</h3>
+
+  <div class="mb-3">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newReadingModal">+ New Reading</button>
+    <button class="btn btn-outline-primary">Buy more readings</button>
+  </div>
+
+  <div class="card p-3">
+    <h5>OCR readings:</h5>
+    <table class="table table-bordered" id="ocrTable">
+      <thead>
+        <tr>
+          <th>Reading</th>
+          <th>State</th>
+          <th>Date</th>
+          <th>Information</th>
+          <th>Extracted Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>l
+          <td colspan="5" class="text-center text-muted">You haven't submitted any OCR readings yet.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal for new reading -->
+<div class="modal fade" id="newReadingModal" tabindex="-1" aria-labelledby="newReadingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newReadingModalLabel">Nueva lectura</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="alert alert-info">
+          Arrastra hasta 5 imágenes de tu gasto o factura (<b>una por envío</b>).  
+          El procesado OCR puede tardar hasta 2 días hábiles.
+        </p>
+
+        <form id="newReadingForm">
+          <div class="mb-3">
+            <label class="form-label">Período:</label>
+            <select class="form-select" name="periodo">
+              <option>En función de la fecha del ticket / factura</option>
+              <option>Periodo 1</option>
+              <option>Periodo 2</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tipo:</label>
+            <select class="form-select" name="tipo">
+              <option>Factura recibida</option>
+              <option>Factura emitida</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tipo de gasto:</label>
+            <select class="form-select" name="tipo_gasto">
+              <option>600. Compras de mercaderías (materiales)</option>
+              <option>601. Servicios</option>
+              <option>602. Otros</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Comentarios:</label>
+            <textarea class="form-control" name="comentarios" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Ficheros:</label>
+            <input class="form-control" type="file" name="ficheros" multiple>
+            <small class="text-muted">(Tamaño máximo: 14 MB)</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="enviarBtn">Enviar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="ocr.js"></script>
+</body>
+</html>
