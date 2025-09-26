@@ -17,7 +17,7 @@ document.querySelectorAll('.accordion-header').forEach(header => {
   });
 });
 
-// Sidebar-Link Funktion
+// Sidebar-Link Funktion – öffnet direkt im gleichen Tab
 document.querySelectorAll('.sidebar-link').forEach(link => {
   link.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
@@ -26,33 +26,11 @@ document.querySelectorAll('.sidebar-link').forEach(link => {
     if (href.startsWith('#')) return;
 
     e.preventDefault();
-
-    // Prüfen, ob die Seite existiert
-    fetch(href, { method: 'HEAD' })
-      .then(response => {
-        if (response.ok) {
-          // Seite existiert, öffne im gleichen Tab
-          window.location.href = href;
-          document.getElementById('linkStatus').innerHTML = 
-            '<strong>Erfolg:</strong> Seite wird geöffnet: ' + href;
-          document.getElementById('linkStatus').style.background = '#d4edda';
-          document.getElementById('linkStatus').style.color = '#155724';
-          document.getElementById('linkStatus').style.borderColor = '#c3e6cb';
-        } else {
-          throw new Error('Seite nicht gefunden');
-        }
-      })
-      .catch(error => {
-        document.getElementById('linkStatus').innerHTML = 
-          '<strong>Fehler:</strong> Seite nicht gefunden: ' + href;
-        document.getElementById('linkStatus').style.background = '#f8d7da';
-        document.getElementById('linkStatus').style.color = '#721c24';
-        document.getElementById('linkStatus').style.borderColor = '#f5c6cb';
-      });
+    window.location.href = href;
   });
 });
 
-// Optional: Kommentarbereich Toggle
+// Kommentarbereich Toggle (optional)
 document.getElementById('toggleComments')?.addEventListener('click', function() {
   alert('Kommentarbereich würde sich hier erweitern');
 });
