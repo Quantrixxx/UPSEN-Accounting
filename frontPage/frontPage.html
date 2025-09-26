@@ -479,15 +479,13 @@
             <div class="accordion-header">Accounting</div>
             <div class="accordion-content">
                 <ul class="sidebar-menu">
-    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/" class="sidebar-link">Dashboard</a></li>
-    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/expense/expense.html" class="sidebar-link">Expenses</a></li>
-    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/Invoice-issued/invoice-issued.html" class="sidebar-link">Invoice Issued</a></li>
-    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/Invoice_recieved/Invoice_received.html" class="sidebar-link">Invoice Received</a></li>
-    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/budgetPage/budget.html" class="sidebar-link">Budgets</a></li>
-    <li><a href="#help" class="sidebar-link">Hilfe</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/" class="sidebar-link">Dashboard</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/expense/expense.html" class="sidebar-link">Expenses</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/Invoice-issued/invoice-issued.html" class="sidebar-link">Invoice Issued</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/Invoice_recieved/Invoice_received.html" class="sidebar-link">Invoice Received</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/budgetPage/budget.html" class="sidebar-link">Budgets</a></li>
+                    <li><a href="#help" class="sidebar-link">Hilfe</a></li>
                 </ul>
-
-
             </div>
           </div>
         </div>
@@ -510,7 +508,6 @@
         <!-- Status Message für Links -->
         <div class="status-message" id="linkStatus">
           <strong>Hinweis:</strong> Klicken Sie auf die Links in der Sidebar, um zu den entsprechenden Seiten zu navigieren.
-          Die Seiten öffnen sich in neuen Tabs.
         </div>
 
         <div class="dashboard-grid">
@@ -625,7 +622,7 @@
       location.reload();
     });
 
-    // Sidebar link handling with error checking
+    // ✅ KORRIGIERT: Sidebar link handling - Öffnet Seiten im GLEICHEN Tab
     document.querySelectorAll('.sidebar-link').forEach(link => {
       link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
@@ -636,31 +633,8 @@
         }
         
         e.preventDefault();
-        
-        // Test if the page exists
-        fetch(href, { method: 'HEAD' })
-          .then(response => {
-            if (response.ok) {
-              // Page exists, open in new tab
-              window.open(href, '_blank');
-              document.getElementById('linkStatus').innerHTML = 
-                '<strong>Erfolg:</strong> Seite wird geöffnet: ' + href;
-              document.getElementById('linkStatus').style.background = '#d4edda';
-              document.getElementById('linkStatus').style.color = '#155724';
-              document.getElementById('linkStatus').style.borderColor = '#c3e6cb';
-            } else {
-              throw new Error('Page not found');
-            }
-          })
-          .catch(error => {
-            // Page doesn't exist, show error
-            document.getElementById('linkStatus').innerHTML = 
-              '<strong>Fehler:</strong> Seite nicht gefunden: ' + href + 
-              '<br>Bitte stellen Sie sicher, dass die Seite auf GitHub existiert.';
-            document.getElementById('linkStatus').style.background = '#f8d7da';
-            document.getElementById('linkStatus').style.color = '#721c24';
-            document.getElementById('linkStatus').style.borderColor = '#f5c6cb';
-          });
+        // ✅ Öffne die Seite im GLEICHEN Tab
+        window.location.href = href;
       });
     });
 
