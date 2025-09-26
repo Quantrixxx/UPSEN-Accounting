@@ -2,7 +2,6 @@
 document.querySelectorAll('.accordion-header').forEach(header => {
   header.addEventListener('click', () => {
     const content = header.nextElementSibling;
-
     if (content.style.maxHeight && content.classList.contains("open")) {
       content.style.maxHeight = null;
       content.classList.remove("open");
@@ -17,7 +16,7 @@ document.querySelectorAll('.accordion-header').forEach(header => {
   });
 });
 
-// Sidebar-Link Funktion – öffnet direkt im gleichen Tab
+// Sidebar-Link Funktion – öffnet im gleichen Tab
 document.querySelectorAll('.sidebar-link').forEach(link => {
   link.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
@@ -26,7 +25,30 @@ document.querySelectorAll('.sidebar-link').forEach(link => {
     if (href.startsWith('#')) return;
 
     e.preventDefault();
-    window.location.href = href;
+
+    // Prüfen, ob die Seite existiert
+    fetch(href, { method: 'HEAD' })
+      .then(response => {
+        if (response.ok) {
+          // Seite existiert, öffne im gleichen Tab
+          window.location.href = href;
+          document.getElementById('linkStatus').innerHTML = 
+            '<strong>Erfolg:</strong> Seite wird geöffnet: ' + href;
+          document.getElementById('linkStatus').style.background = '#d4edda';
+          document.getElementById('linkStatus').style.color = '#155724';
+          document.getElementById('linkStatus').style.borderColor = '#c3e6cb';
+        } else {
+          throw new Error('Seite nicht gefunden');
+        }
+      })
+      .catch(error => {
+        document.getElementById('linkStatus').innerHTML = 
+          '<strong>Fehler:</strong> Seite nicht gefunden: ' + href +
+          '<br>Bitte stellen Sie sicher, dass die Seite auf GitHub existiert.';
+        document.getElementById('linkStatus').style.background = '#f8d7da';
+        document.getElementById('linkStatus').style.color = '#721c24';
+        document.getElementById('linkStatus').style.borderColor = '#f5c6cb';
+      });
   });
 });
 
@@ -64,7 +86,7 @@ document.getElementById('logoutBtn')?.addEventListener('click', function() {
 window.addEventListener('click', function(e) {
   if (!e.target.matches('#userMenuBtn')) {
     const dropdown = document.getElementById('userDropdown');
-    if (dropdown.classList.contains('show')) {
+    if (dropdown?.classList.contains('show')) {
       dropdown.classList.remove('show');
     }
   }
@@ -73,4 +95,10 @@ window.addEventListener('click', function(e) {
 // Refresh-Button
 document.getElementById('refreshBtn')?.addEventListener('click', function() {
   location.reload();
+});
+
+// Auto-login für Testing (optional, entfernen für Produktion!)
+window.addEventListener('load', function() {
+  document.getElementById('email').value = 'test@example.com';
+  document.getElementById('password').value = '123456';
 });
