@@ -1,53 +1,3 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Contasimple - Expenses</title>
-  <link rel="stylesheet" href="../style.css" />
-</head>
-<body>
-  <!-- App Container -->
-  <div class="app-container" id="appContainer" style="display:flex;">
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-      <div class="logo">Contasimple</div>
-      <div class="nav-items">
-        <div class="user-profile">
-          <div class="avatar" id="userMenuBtn">JS</div>
-          <span>John Smith</span>
-          <div class="dropdown-menu" id="userDropdown">
-            <div class="dropdown-item">Profil</div>
-            <div class="dropdown-item">Einstellungen</div>
-            <div class="dropdown-item" id="logoutBtn">Abmelden</div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar-header">Menü</div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <div class="accordion-header">Accounting</div>
-            <div class="accordion-content open">
-              <ul>
-                <li><a href="../index.html" class="sidebar-link">Dashboard</a></li>
-                <li><a href="../expense/expense.html" class="sidebar-link active">Expenses</a></li>
-                <li><a href="../OCR/OCR.html" class="sidebar-link">OCR</a></li>
-                <li><a href="../Invoice-issued/invoice-issued.html" class="sidebar-link">Invoice Issued</a></li>
-                <li><a href="../Invoice_received/Invoice_received.html" class="sidebar-link">Invoice Received</a></li>
-                <li><a href="../budgetPage/budget.html" class="sidebar-link">Budgets</a></li>
-                <li><a href="#help" class="sidebar-link">Hilfe</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </aside>
-
       <!-- Content Area -->
       <main class="content">
         <div class="dashboard-header">
@@ -59,6 +9,23 @@
           </div>
         </div>
 
+        <!-- Summary Cards -->
+        <div class="cards-container">
+          <div class="card summary-card">
+            <h2>Monatliche Ausgaben</h2>
+            <p><strong>€470,00</strong></p>
+          </div>
+          <div class="card summary-card">
+            <h2>Kategorie mit den meisten Kosten</h2>
+            <p><strong>Reisekosten</strong></p>
+          </div>
+          <div class="card summary-card">
+            <h2>Letzte Ausgabe</h2>
+            <p>10.09.2025 – Bahnreise</p>
+          </div>
+        </div>
+
+        <!-- Table -->
         <div class="card">
           <h2 class="card-header">Ausgabenübersicht</h2>
           <table>
@@ -83,13 +50,27 @@
                 <td>€350,00</td>
                 <td>Bahnfahrt nach Berlin</td>
               </tr>
+              <tr>
+                <td>15.09.2025</td>
+                <td>Verpflegung</td>
+                <td>€45,00</td>
+                <td>Team Mittagessen</td>
+              </tr>
+              <tr>
+                <td>20.09.2025</td>
+                <td>Software</td>
+                <td>€89,00</td>
+                <td>Adobe Lizenz</td>
+              </tr>
             </tbody>
           </table>
         </div>
-      </main>
-    </div>
-  </div>
 
-  <script src="../script.js"></script>
-</body>
-</html>
+        <!-- Charts Placeholder -->
+        <div class="card">
+          <h2 class="card-header">Visualisierung</h2>
+          <div style="height:200px;display:flex;align-items:center;justify-content:center;color:#777;">
+            [Hier könnte dein Diagramm rein]
+          </div>
+        </div>
+      </main>
