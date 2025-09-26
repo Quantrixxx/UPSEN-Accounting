@@ -15,7 +15,7 @@ document.querySelectorAll('.sidebar-link').forEach(link => {
       .then(response => {
         if (response.ok) {
           // Page exists, open in SAME tab (korrigiert)
-          window.location.href = href;
+          window.location.href = href;  // ✅ KORREKT!
         } else {
           throw new Error('Page not found');
         }
