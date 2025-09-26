@@ -1,195 +1,1035 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Invoices Received - Mock</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="invoices.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Accounting - Invoice Received</title>
+  <style>
+    /* Basis-Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #eef1f7;
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Login Screen */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #3a6cd6 0%, #1e3a8a 100%);
+    }
+    
+    .login-form {
+      background: white;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 420px;
+    }
+    
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2a4d9c;
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #2a4d9c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    
+    .login-btn:hover {
+      background-color: #1e3a8a;
+    }
+
+    /* App Layout */
+    .app-container {
+      display: none;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      background-color: #2a4d9c;
+      padding: 0 25px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .nav-items {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: white;
+      color: #2a4d9c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 55px;
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      width: 170px;
+      display: none;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 14px 16px;
+      cursor: pointer;
+      color: #333;
+      font-size: 15px;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f0f4ff;
+      color: #2a4d9c;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: white;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      font-size: 1.4em;
+      font-weight: bold;
+      background: #1a252f;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .accordion {
+      padding: 10px 0;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid #34495e;
+    }
+
+    .accordion-header {
+      background: #2c3e50;
+      color: #ecf0f1;
+      cursor: pointer;
+      padding: 15px 20px;
+      font-size: 1.05em;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: #1abc9c;
+    }
+
+    .accordion-content {
+      display: none;
+      background: #34495e;
+    }
+
+    .accordion-content.open {
+      display: block;
+    }
+
+    .accordion-content ul {
+      margin: 0;
+      padding: 10px 0;
+      list-style: none;
+    }
+
+    .accordion-content li {
+      padding: 10px 20px 10px 40px;
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .accordion-content li:hover {
+      background: #2c3e50;
+      color: #1abc9c;
+    }
+
+    /* Aktive Seite markieren */
+    .accordion-content li.active {
+      background: #1abc9c;
+      color: white;
+    }
+
+    .accordion-content li.active a {
+      color: white;
+    }
+
+    /* Link Styles */
+    .sidebar-link {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+    }
+
+    .sidebar-link:hover {
+      color: inherit;
+    }
+
+    /* Content Area */
+    .content {
+      flex: 1;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background-color: #2a4d9c;
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: #e9ecef;
+      color: #495057;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      color: white;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #2c3e50;
+      display: flex;
+      justify-content: between;
+      align-items: center;
+    }
+
+    /* Summary Cards */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .summary-card h2 {
+      font-size: 16px;
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+
+    .summary-card p {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-paid {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-overdue {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    /* Filter area */
+    .filter-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .filter-card.show {
+      display: block;
+    }
+
+    .filter-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-group label {
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .apply-filter-btn {
+      align-self: flex-end;
+      padding: 10px 20px;
+      background-color: #2a4d9c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Period selector */
+    .period-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .period-selector label {
+      font-weight: 500;
+    }
+
+    .period-selector select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-header {
+      padding: 20px 25px;
+      border-bottom: 1px solid #e9ecef;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #6c757d;
+    }
+
+    .modal-body {
+      padding: 25px;
+    }
+
+    .modal-footer {
+      padding: 20px 25px;
+      border-top: 1px solid #e9ecef;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .form-group-modal {
+      margin-bottom: 18px;
+    }
+
+    .form-group-modal label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .form-group-modal input,
+    .form-group-modal select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .dashboard-grid,
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        height: 100%;
+        z-index: 100;
+        transition: left 0.3s;
+      }
+      
+      .sidebar.open {
+        left: 0;
+      }
+      
+      .nav-items {
+        display: none;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .action-buttons {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
-<body class="bg-light">
-  <div class="container mt-4">
-    <!-- Header + Period selector -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3>Record of invoices received</h3>
-      <div class="d-flex align-items-center">
-        <label for="periodSelect" class="me-2">Period</label>
-        <select id="periodSelect" class="form-select w-auto">
-          <option>2025-3Q</option>
-          <option>2025-2Q</option>
-          <option>2025-1Q</option>
-        </select>
+<body>
+  <!-- Login Screen -->
+  <div class="login-container" id="loginScreen">
+    <div class="login-form">
+      <h2>Anmelden bei Accounting</h2>
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" placeholder="Ihre E-Mail-Adresse" value="test@example.com">
       </div>
-    </div>
-
-   
-    <!-- Action Buttons -->
-    <div class="mb-3">
-      <button class="btn btn-primary me-2" id="btnNewInvoice">+ New Invoice</button>
-      <button class="btn btn-primary me-2" id="btnNewInvoiceOCR">+ New Invoice via OCR</button>
-      <button class="btn btn-outline-secondary" id="btnFilter">Filter</button>
-      <button class="btn btn-outline-secondary" id="btnDownloadPDF">Download All as PDF</button>
-    </div>
-
-    <!-- Filter area (hidden or toggleable) -->
-    <div class="card mb-3 d-none" id="filterCard">
-      <div class="card-body">
-        <form id="filterForm" class="row g-3">
-          <div class="col-md-3">
-            <label class="form-label">State</label>
-            <select class="form-select" name="state">
-              <option value="">All</option>
-              <option value="Paid">Paid</option>
-              <option value="Overdue">Overdue</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">From Date</label>
-            <input type="date" name="dateFrom" class="form-control" />
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">To Date</label>
-            <input type="date" name="dateTo" class="form-control" />
-          </div>
-          <div class="col-md-3 d-flex align-items-end">
-            <button type="button" class="btn btn-primary" id="applyFilter">Apply</button>
-          </div>
-        </form>
+      <div class="form-group">
+        <label for="password">Passwort</label>
+        <input type="password" id="password" placeholder="Ihr Passwort" value="123456">
       </div>
-    </div>
-
-    <!-- Table -->
-    <div class="card p-3">
-      <div class="table-responsive">
-        <table class="table table-bordered" id="invoicesTable">
-          <thead>
-            <tr>
-              <th>Invoice #</th>
-              <th>State</th>
-              <th>Date</th>
-              <th>Supplier</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody id="invoiceTbody">
-            <tr>
-              <td colspan="5" class="text-center text-muted">
-                There are no invoices for the selected period.<br>
-                You can change the period using the selector on the top right.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <button class="login-btn" id="loginBtn">Anmelden</button>
     </div>
   </div>
 
-  <!-- Modals below -->
-
-  <!-- New Invoice Modal -->
-  <div
-    class="modal fade"
-    id="modalNewInvoice"
-    tabindex="-1"
-    aria-labelledby="modalNewInvoiceLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNewInvoiceLabel">New Invoice</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+  <!-- App Container -->
+  <div class="app-container" id="appContainer">
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <div class="logo">Accounting</div>
+      <div class="nav-items">
+        <div class="user-profile">
+          <div class="avatar" id="userMenuBtn">JS</div>
+          <span>John Smith</span>
+          <div class="dropdown-menu" id="userDropdown">
+            <div class="dropdown-item">Profil</div>
+            <div class="dropdown-item">Einstellungen</div>
+            <div class="dropdown-item" id="logoutBtn">Abmelden</div>
+          </div>
         </div>
-        <div class="modal-body">
-          <form id="formNewInvoice">
-            <div class="mb-3">
-              <label class="form-label">Invoice Number</label>
-              <input type="text" name="invoiceNumber" class="form-control" />
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">Menü</div>
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header">Accounting</div>
+            <div class="accordion-content open">
+                <ul class="sidebar-menu">
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/" class="sidebar-link">Dashboard</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/expense/expense.html" class="sidebar-link">Expenses</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/Invoice-issued/invoice-issued.html" class="sidebar-link">Invoice Issued</a></li>
+                    <li class="active"><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/Invoice_recieved/Invoice_received.html" class="sidebar-link">Invoice Received</a></li>
+                    <li><a href="https://upsenconsulting-prog.github.io/UPSEN-Accounting/budgetPage/budget.html" class="sidebar-link">Budgets</a></li>
+                    <li><a href="#help" class="sidebar-link">Hilfe</a></li>
+                </ul>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Date</label>
-              <input type="date" name="invoiceDate" class="form-control" />
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content">
+        <div class="dashboard-header">
+          <h1 class="page-title">Eingegangene Rechnungen</h1>
+          <div class="period-selector">
+            <label for="periodSelect">Zeitraum:</label>
+            <select id="periodSelect">
+              <option>2025-Q3</option>
+              <option>2025-Q2</option>
+              <option>2025-Q1</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons" style="margin-bottom: 25px;">
+          <button class="btn btn-primary" id="newInvoiceBtn">
+            <span>+</span> Neue Rechnung
+          </button>
+          <button class="btn btn-primary" id="newInvoiceOCRBtn">
+            <span>📄</span> Rechnung per OCR
+          </button>
+          <button class="btn btn-secondary" id="filterBtn">
+            <span>🔍</span> Filter
+          </button>
+          <button class="btn btn-success" id="downloadPDFBtn">
+            <span>📊</span> Als PDF herunterladen
+          </button>
+        </div>
+
+        <!-- Filter Card -->
+        <div class="filter-card" id="filterCard">
+          <form id="filterForm" class="filter-form">
+            <div class="filter-group">
+              <label>Status</label>
+              <select name="state">
+                <option value="">Alle</option>
+                <option value="Paid">Bezahlt</option>
+                <option value="Overdue">Überfällig</option>
+              </select>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Supplier</label>
-              <input type="text" name="supplier" class="form-control" />
+            <div class="filter-group">
+              <label>Von Datum</label>
+              <input type="date" name="dateFrom" />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Amount</label>
-              <input type="number" step="0.01" name="amount" class="form-control" />
+            <div class="filter-group">
+              <label>Bis Datum</label>
+              <input type="date" name="dateTo" />
+            </div>
+            <div class="filter-group">
+              <button type="button" class="apply-filter-btn" id="applyFilter">Filter anwenden</button>
             </div>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="saveInvoiceBtn">Save</button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cancel
-          </button>
+
+        <!-- Summary Cards -->
+        <div class="cards-container">
+          <div class="card summary-card">
+            <h2>Ausstehende Zahlungen</h2>
+            <p><strong>€3.250,00</strong></p>
+          </div>
+          <div class="card summary-card">
+            <h2>Überfällige Rechnungen</h2>
+            <p><strong>€1.120,00</strong></p>
+          </div>
+          <div class="card summary-card">
+            <h2>Diesen Monat erhalten</h2>
+            <p><strong>8 Rechnungen</strong></p>
+          </div>
+          <div class="card summary-card">
+            <h2>Durchschnittlicher Betrag</h2>
+            <p><strong>€406,25</strong></p>
+          </div>
         </div>
+
+        <!-- Invoice Table -->
+        <div class="card">
+          <h2 class="card-header">Eingegangene Rechnungen</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Rechnungsnummer</th>
+                <th>Status</th>
+                <th>Datum</th>
+                <th>Lieferant</th>
+                <th>Betrag</th>
+                <th>Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="invoiceTbody">
+              <tr>
+                <td>EIN-2025-001</td>
+                <td><span class="status-badge status-paid">Bezahlt</span></td>
+                <td>01.09.2025</td>
+                <td>Bürobedarf AG</td>
+                <td>€250,00</td>
+                <td>
+                  <button class="btn" style="padding: 4px 8px; font-size: 12px;">Ansehen</button>
+                </td>
+              </tr>
+              <tr>
+                <td>EIN-2025-002</td>
+                <td><span class="status-badge status-pending">Ausstehend</span></td>
+                <td>05.09.2025</td>
+                <td>IT-Services GmbH</td>
+                <td>€890,00</td>
+                <td>
+                  <button class="btn" style="padding: 4px 8px; font-size: 12px;">Ansehen</button>
+                </td>
+              </tr>
+              <tr>
+                <td>EIN-2025-003</td>
+                <td><span class="status-badge status-pending">Ausstehend</span></td>
+                <td>10.09.2025</td>
+                <td>Stromversorger AG</td>
+                <td>€420,00</td>
+                <td>
+                  <button class="btn" style="padding: 4px 8px; font-size: 12px;">Ansehen</button>
+                </td>
+              </tr>
+              <tr>
+                <td>EIN-2025-004</td>
+                <td><span class="status-badge status-overdue">Überfällig</span></td>
+                <td>15.08.2025</td>
+                <td>Reinigungsservice Ltd.</td>
+                <td>€230,00</td>
+                <td>
+                  <button class="btn" style="padding: 4px 8px; font-size: 12px;">Ansehen</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Charts Placeholder -->
+        <div class="card">
+          <h2 class="card-header">Ausgabenentwicklung</h2>
+          <div class="chart-placeholder">
+            Diagramm der eingegangenen Rechnungen und Zahlungsausgänge
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- New Invoice Modal -->
+  <div class="modal" id="modalNewInvoice">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Neue Rechnung</h5>
+        <button class="modal-close" id="closeNewInvoiceModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formNewInvoice">
+          <div class="form-group-modal">
+            <label>Rechnungsnummer</label>
+            <input type="text" name="invoiceNumber" class="form-control" />
+          </div>
+          <div class="form-group-modal">
+            <label>Datum</label>
+            <input type="date" name="invoiceDate" class="form-control" />
+          </div>
+          <div class="form-group-modal">
+            <label>Lieferant</label>
+            <input type="text" name="supplier" class="form-control" />
+          </div>
+          <div class="form-group-modal">
+            <label>Betrag</label>
+            <input type="number" step="0.01" name="amount" class="form-control" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="saveInvoiceBtn">Speichern</button>
+        <button class="btn btn-secondary" id="cancelNewInvoiceBtn">Abbrechen</button>
       </div>
     </div>
   </div>
 
   <!-- New Invoice via OCR Modal -->
-  <div
-    class="modal fade"
-    id="modalNewInvoiceOCR"
-    tabindex="-1"
-    aria-labelledby="modalNewInvoiceOCRLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNewInvoiceOCRLabel">
-            New Invoice via OCR
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form id="formOCRInvoice">
-            <div class="mb-3">
-              <label class="form-label">Upload File</label>
-              <input type="file" name="ocrFile" class="form-control" />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="saveOCRBtn">
-            Upload & Process
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cancel
-          </button>
-        </div>
+  <div class="modal" id="modalNewInvoiceOCR">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Rechnung per OCR</h5>
+        <button class="modal-close" id="closeOCRModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formOCRInvoice">
+          <div class="form-group-modal">
+            <label>Datei hochladen</label>
+            <input type="file" name="ocrFile" class="form-control" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="saveOCRBtn">Hochladen & Verarbeiten</button>
+        <button class="btn btn-secondary" id="cancelOCRBtn">Abbrechen</button>
       </div>
     </div>
   </div>
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-  ></script>
-  <script src="invoices.js"></script>
+  <script>
+    // ✅ PRÜFE BEIM LADEN DER SEITE OB BEREITS EINGELOGGT
+    window.addEventListener('load', function() {
+      // Prüfe ob bereits eingeloggt
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      
+      if (isLoggedIn === 'true') {
+        // Direkt zur App wechseln wenn bereits eingeloggt
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+        
+        // Aktive Seite markieren
+        markActivePage();
+      } else {
+        // Auto-fill for easier testing
+        document.getElementById('email').value = 'test@example.com';
+        document.getElementById('password').value = '123456';
+      }
+    });
+
+    // Funktion zur Markierung der aktiven Seite
+    function markActivePage() {
+      const currentPage = window.location.href;
+      const links = document.querySelectorAll('.sidebar-link');
+      
+      links.forEach(link => {
+        if (link.href === currentPage) {
+          link.parentElement.classList.add('active');
+        } else {
+          link.parentElement.classList.remove('active');
+        }
+      });
+    }
+
+    // Login functionality
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      if (email && password) {
+        // ✅ LOGIN-STATUS IN SESSION SPEICHERN
+        sessionStorage.setItem('isLoggedIn', 'true');
+        
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+        
+        // Aktive Seite markieren
+        markActivePage();
+      } else {
+        alert('Bitte geben Sie E-Mail und Passwort ein');
+      }
+    });
+    
+    // User menu functionality
+    document.getElementById('userMenuBtn').addEventListener('click', function() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    });
+    
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      // ✅ LOGIN-STATUS ENTFERNEN BEIM ABMELDEN
+      sessionStorage.removeItem('isLoggedIn');
+      
+      document.getElementById('appContainer').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('userDropdown').classList.remove('show');
+    });
+    
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(e) {
+      if (!e.target.matches('#userMenuBtn')) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    });
+    
+    // Accordion functionality
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        content.classList.toggle("open");
+      });
+    });
+
+    // Filter functionality
+    document.getElementById('filterBtn').addEventListener('click', function() {
+      document.getElementById('filterCard').classList.toggle('show');
+    });
+
+    // Apply filter functionality
+    document.getElementById('applyFilter').addEventListener('click', function() {
+      alert('Filter werden angewendet');
+      document.getElementById('filterCard').classList.remove('show');
+    });
+
+    // New Invoice Button
+    document.getElementById('newInvoiceBtn').addEventListener('click', function() {
+      document.getElementById('modalNewInvoice').classList.add('show');
+    });
+
+    // New Invoice via OCR Button
+    document.getElementById('newInvoiceOCRBtn').addEventListener('click', function() {
+      document.getElementById('modalNewInvoiceOCR').classList.add('show');
+    });
+
+    // Download PDF Button
+    document.getElementById('downloadPDFBtn').addEventListener('click', function() {
+      alert('PDF wird heruntergeladen');
+    });
+
+    // Close modals
+    document.getElementById('closeNewInvoiceModal').addEventListener('click', function() {
+      document.getElementById('modalNewInvoice').classList.remove('show');
+    });
+
+    document.getElementById('closeOCRModal').addEventListener('click', function() {
+      document.getElementById('modalNewInvoiceOCR').classList.remove('show');
+    });
+
+    document.getElementById('cancelNewInvoiceBtn').addEventListener('click', function() {
+      document.getElementById('modalNewInvoice').classList.remove('show');
+    });
+
+    document.getElementById('cancelOCRBtn').addEventListener('click', function() {
+      document.getElementById('modalNewInvoiceOCR').classList.remove('show');
+    });
+
+    // Save buttons
+    document.getElementById('saveInvoiceBtn').addEventListener('click', function() {
+      alert('Rechnung wird gespeichert');
+      document.getElementById('modalNewInvoice').classList.remove('show');
+    });
+
+    document.getElementById('saveOCRBtn').addEventListener('click', function() {
+      alert('OCR-Verarbeitung wird gestartet');
+      document.getElementById('modalNewInvoiceOCR').classList.remove('show');
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal')) {
+        e.target.classList.remove('show');
+      }
+    });
+
+    // ✅ KORRIGIERT: Sidebar link handling - Öffnet Seiten im GLEICHEN Tab
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        
+        // Skip internal links (starting with #)
+        if (href.startsWith('#')) {
+          return;
+        }
+        
+        e.preventDefault();
+        // ✅ Öffne die Seite im GLEICHEN Tab
+        window.location.href = href;
+      });
+    });
+
+    // Accordion standardmäßig öffnen
+    document.querySelector('.accordion-content').classList.add('open');
+  </script>
 </body>
 </html>
