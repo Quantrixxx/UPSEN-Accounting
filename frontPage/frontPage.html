@@ -569,12 +569,31 @@
   </div>
 
   <script>
+    // ✅ PRÜFE BEIM LADEN DER SEITE OB BEREITS EINGELOGGT
+    window.addEventListener('load', function() {
+      // Prüfe ob bereits eingeloggt
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      
+      if (isLoggedIn === 'true') {
+        // Direkt zur App wechseln wenn bereits eingeloggt
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+      } else {
+        // Auto-fill for easier testing
+        document.getElementById('email').value = 'test@example.com';
+        document.getElementById('password').value = '123456';
+      }
+    });
+
     // Login functionality
     document.getElementById('loginBtn').addEventListener('click', function() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       
       if (email && password) {
+        // ✅ LOGIN-STATUS IN SESSION SPEICHERN
+        sessionStorage.setItem('isLoggedIn', 'true');
+        
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('appContainer').style.display = 'flex';
       } else {
@@ -589,6 +608,9 @@
     
     // Logout functionality
     document.getElementById('logoutBtn').addEventListener('click', function() {
+      // ✅ LOGIN-STATUS ENTFERNEN BEIM ABMELDEN
+      sessionStorage.removeItem('isLoggedIn');
+      
       document.getElementById('appContainer').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('userDropdown').classList.remove('show');
@@ -636,13 +658,6 @@
         // ✅ Öffne die Seite im GLEICHEN Tab
         window.location.href = href;
       });
-    });
-
-    // Auto-login for testing (remove in production)
-    window.addEventListener('load', function() {
-      // Auto-fill for easier testing
-      document.getElementById('email').value = 'test@example.com';
-      document.getElementById('password').value = '123456';
     });
   </script>
 </body>
